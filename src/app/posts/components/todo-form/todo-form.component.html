@@ -1,0 +1,10 @@
+<form class="input-group mb-3" [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+    <input [value]="todoInput.title" #inputEl formControlName="title" type="text" class="form-control"
+        placeholder="Add your task ..." />
+    <button class="btn btn-outline-secondary text-white" type="submit" id="addTaskBtn">
+        {{
+        isEditing ? '&#x270E;' :
+        '&#65291;'
+        }}
+    </button>
+</form>

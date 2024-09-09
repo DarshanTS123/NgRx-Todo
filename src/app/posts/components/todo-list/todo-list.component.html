@@ -1,0 +1,39 @@
+<div class="to-do-list">
+  <div class="container d-flex justify-content-center align-items-center p-5">
+    <div class="to-do-list-body position-relative d-flex flex-column bg-white rounded-5">
+      <div class="to-do-list-tasks p-5">
+        <div class="title text-center">
+          <h1 class="fw-bold">NgRx ToDo</h1>
+          <p id="tasksInfo" class="fw-bold"></p>
+        </div>
+        <app-todo-form [todoInput]="editInputValue" [isEditing]="todoEdit"></app-todo-form>
+        <ng-container *ngIf="(todos$ | async) as todos">
+          <table *ngIf="todos.length > 0; else noData" class="table">
+            <thead>
+              <tr>
+                <th>Num</th>
+                <th class="w-50">Task</th>
+                <th>Completed</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody id="tasksBody">
+              <tr *ngFor="let todo of todos;let i = index">
+                <td>{{i + 1}}</td>
+                <td class="w-50">{{todo.title}}</td>
+                <td><input type="checkbox" class="form-check-input" [checked]="todo.completed"
+                    (change)="onStatusChange(todo)"></td>
+                <td><a type="button" (click)="editTodo(todo)">&#x270E;</a></td>
+                <td><a type="button" (click)="deleteTodo(todo)">&#x2715;</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #noData>
+            <div class="text-center">No Task</div>
+          </ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
