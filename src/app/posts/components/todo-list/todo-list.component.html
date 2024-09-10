@@ -7,48 +7,57 @@
           <p id="tasksInfo" class="fw-bold"></p>
         </div>
         <app-todo-form [todoInput]="editInputValue" [isEditing]="todoEdit"></app-todo-form>
-        <ng-container>
-          <ul class="list-group list-group-horizontal justify-content-center">
-            <li [ngClass]="{'active': currentState === 'all'}" (click)="updateState('all')" class="list-group-item">
-              All</li>
-            <li [ngClass]="{'active': currentState === 'active'}" (click)="updateState('active')"
-              class="list-group-item">Active</li>
-            <li [ngClass]="{'active': currentState === 'completed'}" (click)="updateState('completed')"
-              class="list-group-item">Completed</li>
-          </ul>
-          <div class="text-center mb-3">
+        <ng-container *ngIf="(todos$ | async | filter: currentState) as todos">
+          <div class="table-wrapper">
+            <table *ngIf="todos.length > 0; else noData" class="table">
+              <thead>
+                <tr>
+                  <th>Num</th>
+                  <th class="w-50">Task</th>
+                  <th>Completed</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id="tasksBody">
+                <tr *ngFor="let todo of todos;let i = index">
+                  <td>{{i + 1}}</td>
+                  <td class="w-50">{{todo.title}}</td>
+                  <td><input type="checkbox" class="form-check-input" [checked]="todo.completed"
+                      (change)="onStatusChange(todo)"></td>
+                  <td><a type="button" (click)="editTodo(todo)">&#x270E;</a></td>
+                  <td><a type="button" (click)="deleteTodo(todo)">&#x2715;</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ng-template #noData>
+            <div class="text-center">No Task</div>
+          </ng-template>
+        </ng-container>
+        <div class="d-flex justify-content-between align-items-center footer">
+          <div>
+            <small>
+              Total ({{(todos$ | async)?.length}})
+            </small>
+          </div>
+          <div>
+            <ul class="list-group list-group-horizontal justify-content-center">
+              <li [ngClass]="{'active': currentState === 'all'}" (click)="updateState('all')" class="list-group-item">
+                All</li>
+              <li [ngClass]="{'active': currentState === 'active'}" (click)="updateState('active')" class="list-group-item">
+                Active</li>
+              <li [ngClass]="{'active': currentState === 'completed'}" (click)="updateState('completed')"
+                class="list-group-item">Completed</li>
+            </ul>
+          </div>
+          <div class="text-end">
             <button class="btn btn-link" [disabled]="(todos$ | async | filter: 'completed')?.length === 0" type="button"
               (click)="clearCompleted()">
               <small>Clear Completed</small>
             </button>
           </div>
-        </ng-container>
-        <ng-container *ngIf="(todos$ | async | filter: currentState) as todos">
-          <table *ngIf="todos.length > 0; else noData" class="table">
-            <thead>
-              <tr>
-                <th>Num</th>
-                <th class="w-50">Task</th>
-                <th>Completed</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody id="tasksBody">
-              <tr *ngFor="let todo of todos;let i = index">
-                <td>{{i + 1}}</td>
-                <td class="w-50">{{todo.title}}</td>
-                <td><input type="checkbox" class="form-check-input" [checked]="todo.completed"
-                    (change)="onStatusChange(todo)"></td>
-                <td><a type="button" (click)="editTodo(todo)">&#x270E;</a></td>
-                <td><a type="button" (click)="deleteTodo(todo)">&#x2715;</a></td>
-              </tr>
-            </tbody>
-          </table>
-          <ng-template #noData>
-            <div class="text-center">No Task</div>
-          </ng-template>
-        </ng-container>
+        </div>
       </div>
     </div>
   </div>

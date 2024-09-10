@@ -151,8 +151,8 @@ body {
 }
 
 .table {
-    width: 80%;
-    margin: 0 auto !important;
+    /* width: 80%; */
+    /* margin: 0 auto !important; */
     background: transparent;
     border: transparent;
     text-align: center;

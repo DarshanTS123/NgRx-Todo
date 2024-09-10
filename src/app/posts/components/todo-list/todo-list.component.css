@@ -3,9 +3,40 @@
     background-color: #00dfc0;
     border-color: #00dfc0;
 }
+
 ::ng-deep .list-group-item {
     padding: 3px 6px;
 }
+
 ::ng-deep .form-check-input {
     border-color: #00dfc0;
+}
+
+.table-wrapper {
+    min-height: 100px;
+    max-height: calc(100vh - 324px);
+    overflow-y: auto;
+}
+
+thead tr {
+    position: sticky;
+    top: 0;
+    background-color: var(--main-color);
+}
+
+thead tr th {
+    color: white;
+}
+
+.footer {
+    position: absolute;
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10px;
+}
+
+.footer>div {
+    flex-grow: 1;
+    flex-basis: 0;
 }
