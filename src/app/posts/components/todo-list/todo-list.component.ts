@@ -7,11 +7,12 @@ import * as TodoAction from '../../store/todo/todo.actions'
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { AppStateInterface } from '../../../types/appState.interface';
 import { TodoFormComponent } from "../todo-form/todo-form.component";
+import { FilterPipe } from '../../pipe/filter.pipe';
 
 @Component({
   selector: 'app-todo-list',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, TodoFormComponent],
+  imports: [CommonModule, AsyncPipe, TodoFormComponent, FilterPipe],
   templateUrl: './todo-list.component.html',
   styleUrl: './todo-list.component.css'
 })
@@ -19,6 +20,7 @@ export class TodoListComponent {
   todos$: Observable<Todo[]>;
   editInputValue: Todo = { id: '', title: '', completed: false }
   todoEdit: boolean = false
+  currentState: 'all' | 'active' | 'completed' = 'all'
 
   constructor(private store: Store<AppStateInterface>) {
     this.todos$ = this.store.pipe(select(selectTodo));
@@ -39,5 +41,13 @@ export class TodoListComponent {
   editTodo(todo: Todo) {
     this.editInputValue = todo
     this.todoEdit = true
+  }
+
+  updateState(state: 'all' | 'active' | 'completed') {
+    this.currentState = state
+  }
+
+  clearCompleted() {
+    this.store.dispatch(TodoAction.clearCompleted())
   }
 }

@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { errorSelector, isLoadingSelector, postsSelector } from '../../store/post/selectors';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { PostInterface } from '../../types/post.interface';
-import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-posts',
@@ -20,7 +19,7 @@ export class PostsComponent {
   error$: Observable<string | null>;
   posts$: Observable<PostInterface[]>;
 
-  constructor(private store: Store<AppStateInterface>, private postService: PostService) {
+  constructor(private store: Store<AppStateInterface>) {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
     this.error$ = this.store.pipe(select(errorSelector));
     this.posts$ = this.store.pipe(select(postsSelector));

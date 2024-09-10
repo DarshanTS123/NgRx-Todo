@@ -24,5 +24,8 @@ export const todoReducers = createReducer(
                 ? { ...data, completed: !data.completed }
                 : data
         );
-    })
+    }),
+    on(TodoActions.clearCompleted, (state) => {
+        return state.filter(data => !data.completed)
+    }),
 )

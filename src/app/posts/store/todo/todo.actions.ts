@@ -22,3 +22,5 @@ export const toggleTodoStatus = createAction(
     '[Todo] Toggle Todo Status',
     props<Todo>()
 );
+
+export const clearCompleted = createAction('[Todo] Clear Completed');

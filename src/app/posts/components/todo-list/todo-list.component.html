@@ -7,7 +7,23 @@
           <p id="tasksInfo" class="fw-bold"></p>
         </div>
         <app-todo-form [todoInput]="editInputValue" [isEditing]="todoEdit"></app-todo-form>
-        <ng-container *ngIf="(todos$ | async) as todos">
+        <ng-container>
+          <ul class="list-group list-group-horizontal justify-content-center">
+            <li [ngClass]="{'active': currentState === 'all'}" (click)="updateState('all')" class="list-group-item">
+              All</li>
+            <li [ngClass]="{'active': currentState === 'active'}" (click)="updateState('active')"
+              class="list-group-item">Active</li>
+            <li [ngClass]="{'active': currentState === 'completed'}" (click)="updateState('completed')"
+              class="list-group-item">Completed</li>
+          </ul>
+          <div class="text-center mb-3">
+            <button class="btn btn-link" [disabled]="(todos$ | async | filter: 'completed')?.length === 0" type="button"
+              (click)="clearCompleted()">
+              <small>Clear Completed</small>
+            </button>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="(todos$ | async | filter: currentState) as todos">
           <table *ngIf="todos.length > 0; else noData" class="table">
             <thead>
               <tr>
